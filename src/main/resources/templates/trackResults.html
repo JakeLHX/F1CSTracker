@@ -1,0 +1,18 @@
+<table id="results" class="table table-bordered table-striped">
+
+  <thead>
+  <tr>
+    <th>Position</th>
+    <th>Name</th>
+    <th>Points</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="row: ${results}">
+    <td th:text="${row.getPosition()}">
+    <td th:text="${row.getF1Driver().getF1DriverName()}">
+    <td th:text="${row.getTotal()}">
+  </tr>
+  </tbody>
+
+</table>
