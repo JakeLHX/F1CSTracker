@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head}">
+    <title th:text="New Track"></title>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <div th:replace="~{fragments/sidebar :: #sidebar}"></div>
+
+    <div class="container-fluid">
+
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div class="card shadow mt-4">
+                <div class="card-body">
+                    <div class="content">
+                        <div class="container">
+                            <form action="#" th:action="@{/newTrack}" th:object="${track}" method="post">
+                                <div class="form-group pl-1 pr-1"><input class="form-control form-control-user"
+                                                                         th:field="*{name}"
+                                                                         type="text" name="Name" placeholder="Name"
+                                                                         required="">
+                                </div>
+                                <div class="form-group pl-1 pr-1"><input class="form-control form-control-user"
+                                                                         th:field="*{country}"
+                                                                         type="text" name="Country"
+                                                                         placeholder="Country">
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block mx-auto pl-1 pr-1" type="submit">
+                                    Create
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+
+</html>

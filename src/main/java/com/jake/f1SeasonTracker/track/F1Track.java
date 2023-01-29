@@ -1,16 +1,11 @@
 package com.jake.f1SeasonTracker.track;
 
-import com.jake.f1SeasonTracker.country.Country;
 import jakarta.persistence.*;
-
-import java.io.IOException;
 
 @Entity
 public class F1Track {
 
-    @JoinColumn(name = "country_id")
-    @ManyToOne
-    private Country country;
+    private String country;
     private String name;
 
     @Id
@@ -22,24 +17,19 @@ public class F1Track {
     }
 
     public F1Track(String name, String country) {
-        this.setCountry(new Country(country));
+        this.setCountry(country);
         this.setName(name);
-    }
-
-    public F1Track(String name, Country newCountry) {
-        this.setName(name);
-        setCountry(newCountry);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public Country getCountry() {
+    public String getCountry() {
         return country;
     }
 

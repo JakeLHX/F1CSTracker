@@ -1,52 +1,156 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <title th:text="${track.getName()}"></title>
-  <meta charset="UTF-8">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<head th:replace="~{fragments/header :: head}">
+    <title th:text="${track.getName()}"></title>
 </head>
 
 <body>
 
-<div class="container">
+<div id="wrapper">
 
-  <h3 th:text="${track.getName()}"></h3>
-  <img crossorigin="anonymous" width="16" height="12" th:src="@{'https://countryflagsapi.com/svg/' + ${track.getCountry().getName()}}">
-  <hr/>
+    <div th:replace="~{fragments/sidebar :: #sidebar}"></div>
 
-  <table id="results" class="table table-bordered table-striped">
+    <div class="container-fluid">
 
-    <thead>
-    <tr>
-      <th>Position</th>
-      <th>Name</th>
-      <th>Points</th>
-      <th>Fastest Lap</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="row: ${result}">
-      <td th:text="${row.getPosition()}">
-      <td th:text="${row.getF1Driver().getF1DriverName()}">
-      <td th:text="${row.getPoints()}">
-      <td>
-        <input type="checkbox" readonly th:checked="${row.getFastestLap()}">
-      </td>
-    </tr>
-    </tbody>
+        <div class="d-flex flex-column" id="content-wrapper">
 
-  </table>
 
+            <img class="mt-4 shadow" crossorigin="anonymous" width="160" height="120"
+                 th:src="@{'https://countryflagsapi.com/svg/' + ${track.getCountry()}}">
+            <div class="mt-2 d-flex">
+                <h3 th:text="${track.getName()}" class="h3 text-gray-800"></h3>
+                <button class="ml-auto d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" type="submit"
+                        onclick="deleteTrack()">
+                    Delete
+                </button>
+            </div>
+
+            <div class="card shadow mt-4" th:if="${result == null}">
+                <div class="card-header">
+                    <h5>Enter Results</h5>
+                </div>
+                <div class="card-body">
+                    <table id="newResults" class="table table-bordered table-striped">
+
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Fastest Lap</th>
+                            <th>Compensation +/-</th>
+                        </tr>
+                        </thead>
+                        <tbody id="newResultsBody">
+                        <tr th:each="row: ${drivers}">
+                            <td id="driverName" th:text="${row.getF1DriverName()}">
+                            <td id="driverID" th:text="${row.getId()}" hidden>
+                            <td id="position">
+                                <input class="form-control form-control-user"
+                                       type="number" name="Position"
+                                       placeholder="Position (1-20)"
+                                       required>
+                            </td>
+                            <td id="fastestlap">
+                                <input type="checkbox">
+                            </td>
+                            <td id="comp">
+                                <input class="form-control form-control-user"
+                                       type="number" name="Compensation"
+                                       placeholder="Deductions">
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                            onclick="submitResults()">
+                        Submit
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="card shadow mt-4" th:if="${result != null}">
+                <div class="card-header">
+                    <h5 th:text="Results"></h5>
+                </div>
+                <div class="card-body">
+                    <table id="results" class="table table-bordered table-striped">
+
+                        <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Name</th>
+                            <th>Points</th>
+                            <th>Fastest Lap</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="row: ${result}">
+                            <td th:text="${row.getPosition()}">
+                            <td th:text="${row.getF1Driver().getF1DriverName()}">
+                            <td th:text="${row.getPoints()}">
+                            <td>
+                                <input type="checkbox" readonly th:checked="${row.getFastestLap()}">
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit"
+                            onclick="clearAndReloadPage()">
+                        Clear Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#standings').DataTable();
-  });
+    $(document).ready(function () {
+        $('#results').DataTable();
+    });
+
+    async function clearAndReloadPage() {
+        const promises = [];
+        promises.push(fetch('/clearTrackResults/' + window.location.pathname.split("/").pop(), {method: 'POST'}));
+        const responses = await Promise.all(promises);
+        const success = responses.every(response => response.status === 200);
+        if (success) location.reload();
+    }
+
+    async function deleteTrack() {
+        const promises = [];
+        promises.push(fetch('/deleteTrack/' + window.location.pathname.split("/").pop(), {method: 'POST'}));
+        const responses = await Promise.all(promises);
+        const success = responses.every(response => response.status === 200);
+        if (success) window.location.href = "/listF1Tracks";
+    }
+
+    async function submitResults() {
+        table = document.getElementById("newResultsBody")
+        trackId = window.location.pathname.split("/").pop()
+        const promises = [];
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            driverID = row.cells['driverID'].textContent
+            position = row.cells['position'].querySelector('input').value
+            if (position == 0) {
+                continue
+            }
+            if (position.length == 0) {
+                continue
+            }
+            fastestLap = row.cells['fastestlap'].querySelector('input').checked
+            comp = row.cells['comp'].querySelector('input').value ? row.cells['comp'].querySelector('input').value : 0
+            params = "trackId=" + trackId + "&driverId=" + driverID + "&position=" + position + "&fastestlap=" + fastestLap
+            promises.push(fetch('/addresult?' + params, {method: 'POST'}));
+        }
+        const responses = await Promise.all(promises);
+        const success = responses.every(response => response.status === 200);
+        if (success) location.reload();
+    }
 </script>
 
 </body>

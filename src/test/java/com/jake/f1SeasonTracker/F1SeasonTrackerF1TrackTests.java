@@ -13,7 +13,6 @@ public class F1SeasonTrackerF1TrackTests {
         F1Track newF1Track = new F1Track("Monza","Italy");
         Assert.notNull(newF1Track, "Track Must not be Null");
         Assert.isTrue(newF1Track.getName() == "Monza", "Name should be Monza");
-        System.out.println(newF1Track.getCountryFlag());
     }
 
 }

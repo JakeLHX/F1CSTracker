@@ -4,6 +4,7 @@ import com.jake.f1SeasonTracker.driver.F1Driver;
 import com.jake.f1SeasonTracker.driver.F1DriverRepository;
 import com.jake.f1SeasonTracker.track.F1Track;
 import com.jake.f1SeasonTracker.track.F1TrackRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Transactional
 public class F1ResultController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class F1ResultController {
     @Autowired
     private F1DriverRepository f1DriverRepository;
 
-    @PostMapping("/addresult")
+    @RequestMapping("/addresult")
     public String addResult(@RequestParam Integer trackId,
                             @RequestParam Integer driverId,
                             @RequestParam Integer position,
@@ -34,7 +36,7 @@ public class F1ResultController {
 
     @PostMapping("/clearTrackResults/{id}")
     public Map<String, Boolean> deleteResultsByTrackId(@PathVariable Integer id) {
-        f1ResultRepository.deleteAllByTrackId(id);
+        f1ResultRepository.deleteF1ResultsByTrackId(id);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;

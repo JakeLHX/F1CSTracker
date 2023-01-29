@@ -1,11 +1,11 @@
 package com.jake.f1SeasonTracker;
 
+import com.jake.f1SeasonTracker.driver.F1Driver;
+import com.jake.f1SeasonTracker.driver.F1DriverRepository;
 import com.jake.f1SeasonTracker.leaderboard.F1Leaderboard;
 import com.jake.f1SeasonTracker.leaderboard.F1LeaderboardEntry;
 import com.jake.f1SeasonTracker.result.F1Result;
 import com.jake.f1SeasonTracker.result.F1ResultRepository;
-import com.jake.f1SeasonTracker.driver.F1Driver;
-import com.jake.f1SeasonTracker.driver.F1DriverRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

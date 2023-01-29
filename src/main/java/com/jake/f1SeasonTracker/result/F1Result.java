@@ -7,16 +7,18 @@ import jakarta.persistence.*;
 @Entity
 public class F1Result {
     private Boolean fastestLap;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private F1Driver f1Driver;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne
     @JoinColumn(name = "track_id")
     private F1Track track;
     private Integer position;
     private Integer points;
 
     @Id
+    @Column(name = "result_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 

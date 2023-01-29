@@ -9,9 +9,9 @@ public interface F1ResultRepository extends CrudRepository<F1Result, Integer>  {
 
     F1Result findResultById(Integer id);
 
-    F1Result deleteResultById(Integer id);
+    Integer deleteResultById(Integer id);
 
-    F1Result deleteAllByTrackId(Integer id);
+    Integer deleteF1ResultsByTrackId(Integer id);
 
     Collection<F1Result> findF1ResultsByF1Driver(F1Driver driver);
 

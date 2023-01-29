@@ -1,7 +1,7 @@
 package com.jake.f1SeasonTracker.driver;
 
+import com.jake.f1SeasonTracker.track.F1Track;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,11 +18,26 @@ public class F1DriverController {
         return "Added New User!";
     }
 
-    @RequestMapping({"/listF1Drivers", "/"})
+    @RequestMapping({"/listF1Drivers"})
     public ModelAndView getAllDrivers() {
         ModelAndView mav = new ModelAndView("driverlist");
         mav.addObject("drivers", f1DriverRepository.findAll());
         return mav;
+    }
+
+    @RequestMapping({"/newDriver"})
+    public ModelAndView newDriver() {
+        F1Driver newF1Driver = new F1Driver();
+        ModelAndView mav = new ModelAndView("newDriver");
+        mav.addObject("driver", newF1Driver);
+        return mav;
+    }
+
+    @PostMapping("/newDriver")
+    public ModelAndView submitForm(@ModelAttribute("driver") F1Driver newF1Driver) {
+        f1DriverRepository.save(newF1Driver);
+        System.out.println(newF1Driver);
+        return getAllDrivers();
     }
 
     @GetMapping("/listdrivers")

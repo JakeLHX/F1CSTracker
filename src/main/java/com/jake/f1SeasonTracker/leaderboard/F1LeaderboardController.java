@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.gson.Gson;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -27,14 +26,14 @@ public class F1LeaderboardController {
     public F1Leaderboard getLeaderboard() {
         F1Leaderboard leaderboard = new F1Leaderboard();
         ArrayList<F1Driver> drivers = getAllF1Drivers();
-        for(F1Driver driver : drivers) {
+        for (F1Driver driver : drivers) {
             F1LeaderboardEntry entry = getF1LeaderboardEntry(driver);
             leaderboard.addF1LeaderboardEntry(entry);
         }
         return leaderboard;
     }
 
-    @RequestMapping({"/standings"})
+    @RequestMapping({"/standings", "/"})
     public ModelAndView getStandings() {
         ModelAndView mav = new ModelAndView("standings");
         mav.addObject("standings", getLeaderboard().getF1LeaderboardEntries());
@@ -59,6 +58,7 @@ public class F1LeaderboardController {
     ArrayList<F1Driver> getAllF1Drivers() {
         return (ArrayList<F1Driver>) f1DriverRepository.findAll();
     }
+
     F1Driver getDriver(String driverName) {
         return f1DriverRepository.findF1DriverByF1DriverName(driverName);
     }
