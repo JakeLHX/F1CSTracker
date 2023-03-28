@@ -52,7 +52,12 @@ public class F1Result {
             }
         }
         else {
-            setPoints(0);
+            //For F1CS23 We want to award fastest lap points no matter where you finish.
+            if (this.fastestLap) {
+                setPoints(1);
+            } else {
+                setPoints(0);
+            }
         }
     }
 
