@@ -76,6 +76,7 @@ public class F1TrackController {
     public ModelAndView submitForm(@ModelAttribute("track") F1Track newF1Track) {
         f1TrackRepository.save(newF1Track);
         System.out.println(newF1Track);
+        newF1Track.setFlagURL();
         return getAllTracks();
     }
 

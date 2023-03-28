@@ -44,7 +44,7 @@
                             <td th:text="${track.getCountry()}">
                             <td>
                                 <img crossorigin="anonymous" width="16" height="12"
-                                     th:src="@{'https://countryflagsapi.com/svg/' + ${track.getCountry()}}">
+                                     th:src="@{${track.getFlagURL()}}">
                             </td>
                         </tr>
                         </tbody>
