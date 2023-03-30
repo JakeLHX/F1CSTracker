@@ -60,8 +60,9 @@ public class F1Track {
 
     private void setFlagURLFromRestAPI() {
         try {
+            String niceCountryURLFormat = getCountry().replaceAll(" ", "%20");
             // Set up the connection
-            URL url = new URL("https://restcountries.com/v3.1/name/"+getCountry());
+            URL url = new URL("https://restcountries.com/v3.1/name/"+niceCountryURLFormat);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
