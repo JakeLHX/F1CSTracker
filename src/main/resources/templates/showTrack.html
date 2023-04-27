@@ -56,7 +56,7 @@
                             <td id="comp">
                                 <input class="form-control form-control-user"
                                        type="number" name="Compensation"
-                                       placeholder="Deductions">
+                                       placeholder="Penalty/Gifted Points">
                             </td>
                         </tr>
                         </tbody>
@@ -145,6 +145,7 @@
             fastestLap = row.cells['fastestlap'].querySelector('input').checked
             comp = row.cells['comp'].querySelector('input').value ? row.cells['comp'].querySelector('input').value : 0
             params = "trackId=" + trackId + "&driverId=" + driverID + "&position=" + position + "&fastestlap=" + fastestLap
+            if (comp) params = params + "&comp=" + comp
             promises.push(fetch('/addresult?' + params, {method: 'POST'}));
         }
         const responses = await Promise.all(promises);

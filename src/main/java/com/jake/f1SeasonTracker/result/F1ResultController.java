@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Objects.isNull;
+
 @RestController
 @Transactional
 public class F1ResultController {
@@ -26,10 +28,14 @@ public class F1ResultController {
     public String addResult(@RequestParam Integer trackId,
                             @RequestParam Integer driverId,
                             @RequestParam Integer position,
-                            @RequestParam(required = false) Boolean fastestlap) {
+                            @RequestParam(required = false) Boolean fastestlap,
+                            @RequestParam(required = false) Integer comp ) {
         F1Track selectedTrack = f1TrackRepository.findTrackById(trackId);
         F1Driver selectedDriver = f1DriverRepository.findF1DriverById(driverId);
         F1Result newF1Result = new F1Result(selectedDriver, selectedTrack, position, fastestlap);
+        if(!isNull(comp)) {
+            newF1Result.setPoints(newF1Result.getPoints()+comp);
+        }
         f1ResultRepository.save(newF1Result);
         return "Added New Result!";
     }
