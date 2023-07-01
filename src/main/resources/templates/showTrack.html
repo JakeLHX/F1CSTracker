@@ -14,6 +14,7 @@
 
         <div class="d-flex flex-column" id="content-wrapper">
 
+            <div th:replace="~{fragments/topbar :: #topbar}"></div>
 
             <img class="mt-4 shadow" crossorigin="anonymous" width="160" height="120"
                  th:src="@{${track.getFlagURL()}}">
@@ -107,6 +108,7 @@
         </div>
     </div>
 </div>
+<script src="/js/f1csjavascript.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
