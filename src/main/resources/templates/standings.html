@@ -13,6 +13,7 @@
     <div class="container-fluid">
 
         <div class="d-flex flex-column" id="content-wrapper">
+            <div th:replace="~{fragments/topbar :: #topbar}"></div>
 
             <h3 class="h3 mt-2 text-gray-800">Standings</h3>
 
@@ -42,6 +43,7 @@
         </div>
     </div>
 </div>
+<script src="/js/f1csjavascript.js"></script>
 
 <footer th:replace="~{fragments/footer :: foot}"></footer>
 </body>
