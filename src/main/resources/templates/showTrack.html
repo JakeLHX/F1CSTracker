@@ -20,7 +20,7 @@
                  th:src="@{${track.getFlagURL()}}">
             <div class="mt-2 d-flex">
                 <h3 th:text="${track.getName()}" class="h3 text-gray-800"></h3>
-                <button class="ml-auto d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" type="submit"
+                <button class="ml-auto d-none d-inline-block btn btn-sm btn-danger shadow-sm" type="submit"
                         onclick="deleteTrack()">
                     Delete
                 </button>
@@ -63,7 +63,7 @@
                         </tbody>
 
                     </table>
-                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                    <button type="button" class="d-none d-inline-block btn btn-sm btn-primary shadow-sm"
                             onclick="submitResults()">
                         Submit
                     </button>
@@ -99,7 +99,7 @@
 
                     </table>
 
-                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit"
+                    <button class="d-none d-inline-block btn btn-sm btn-primary shadow-sm" type="submit"
                             onclick="clearAndReloadPage()">
                         Clear Results
                     </button>
