@@ -23,6 +23,14 @@ public class F1SeasonTrackerF1DriverTests {
     }
 
     @Test
+    void testCreateDriverWithProfilePic() {
+        Object driverLogo = null;
+        F1Driver newF1Driver = new F1Driver("jake", "Password", driverLogo);
+        Assert.notNull(newF1Driver, "User Must not be Null");
+        Assert.isTrue(newF1Driver.getF1DriverName() == "jake", "Username should be Jake");
+    }
+
+    @Test
     void testGetAllDrivers() {
         Collection<F1Driver> resultsArray = f1DriverRepository.findAll();
         System.out.println(resultsArray);
