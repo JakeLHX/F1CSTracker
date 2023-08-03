@@ -29,6 +29,12 @@
                                                                          type="text" name="Password"
                                                                          placeholder="Password">
                                 </div>
+                                <div class="form-group pl-1 pr-1">
+                                    <input th:field="*{f1DriverLogo}" type="file" id="imagePicker" accept="image/*" />
+                                    <br>
+                                    <!-- Preview the selected image -->
+                                    <img id="previewImage" src="" alt="Selected Image" width="200" style="display: none;">
+                                </div>
                                 <button class="btn btn-primary btn-lg btn-block mx-auto pl-1 pr-1" type="submit">
                                     Create
                                 </button>

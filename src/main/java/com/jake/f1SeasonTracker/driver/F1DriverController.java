@@ -12,8 +12,15 @@ public class F1DriverController {
     private F1DriverRepository f1DriverRepository;
 
     @PostMapping("/adddriver")
-    public String addF1Driver(@RequestParam String username, @RequestParam String password) {
-        F1Driver newF1Driver = new F1Driver(username, password);
+    public String addF1Driver(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) byte[] image) {
+        F1Driver newF1Driver;
+
+        if (image != null) {
+            newF1Driver = new F1Driver(username, password, image);
+        } else {
+            newF1Driver = new F1Driver(username, password);
+        }
+
         f1DriverRepository.save(newF1Driver);
         return "Added New User!";
     }

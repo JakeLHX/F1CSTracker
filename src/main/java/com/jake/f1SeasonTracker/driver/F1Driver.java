@@ -2,8 +2,6 @@ package com.jake.f1SeasonTracker.driver;
 
 import jakarta.persistence.*;
 
-import java.awt.*;
-
 @Entity
 public class F1Driver {
 
@@ -21,8 +19,20 @@ public class F1Driver {
     private Integer id;
     private String f1DriverName;
     private String password;
+    private byte[] f1DriverLogo;
 
-    public F1Driver(String f1DriverName, String password, Object driverLogo) {
+    public byte[] getF1DriverLogo() {
+        return f1DriverLogo;
+    }
+
+    public void setF1DriverLogo(byte[] f1DriverLogo) {
+        this.f1DriverLogo = f1DriverLogo;
+    }
+
+    public F1Driver(String f1DriverName, String password, byte[] f1DriverLogo) {
+        this.setPassword(password);
+        this.setF1DriverName(f1DriverName);
+        this.setF1DriverLogo(f1DriverLogo);
     }
 
     public String getF1DriverName() {
