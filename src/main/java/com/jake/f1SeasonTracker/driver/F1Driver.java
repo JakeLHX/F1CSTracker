@@ -1,6 +1,7 @@
 package com.jake.f1SeasonTracker.driver;
 
 import jakarta.persistence.*;
+import org.apache.commons.codec.binary.Base64;
 
 @Entity
 public class F1Driver {
@@ -19,10 +20,17 @@ public class F1Driver {
     private Integer id;
     private String f1DriverName;
     private String password;
+
+    @Lob
     private byte[] f1DriverLogo;
 
     public byte[] getF1DriverLogo() {
         return f1DriverLogo;
+    }
+
+    public String generateBase64ImageFromLogo()
+    {
+        return Base64.encodeBase64String(this.getF1DriverLogo());
     }
 
     public void setF1DriverLogo(byte[] f1DriverLogo) {

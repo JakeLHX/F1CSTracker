@@ -8,7 +8,7 @@ public interface F1DriverRepository extends CrudRepository<F1Driver, Integer> {
 
     F1Driver findF1DriverById(Integer id);
 
-    F1Driver deleteF1DriverById(Integer id);
+    Integer deleteF1DriverById(Integer id);
 
     F1Driver findF1DriverByF1DriverName(String driverName);
 

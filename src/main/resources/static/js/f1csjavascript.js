@@ -22,20 +22,22 @@
     const imagePicker = document.getElementById('imagePicker');
     const previewImage = document.getElementById('previewImage');
 
-    imagePicker.addEventListener('change', function() {
-        const selectedImage = imagePicker.files[0];
-        if (selectedImage) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                previewImage.src = event.target.result;
-            };
-            reader.readAsDataURL(selectedImage);
-            previewImage.style.display = 'block'; // Show the preview image
-        } else {
-            previewImage.src = ''; // Clear the preview if no image selected
-            previewImage.style.display = 'none'; // Hide the preview image
-        }
-    });
+    if (imagePicker) {
+        imagePicker.addEventListener('change', function () {
+            const selectedImage = imagePicker.files[0];
+            if (selectedImage) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    previewImage.src = event.target.result;
+                };
+                reader.readAsDataURL(selectedImage);
+                previewImage.style.display = 'block'; // Show the preview image
+            } else {
+                previewImage.src = ''; // Clear the preview if no image selected
+                previewImage.style.display = 'none'; // Hide the preview image
+            }
+        });
+    };
 
     // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
     $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
