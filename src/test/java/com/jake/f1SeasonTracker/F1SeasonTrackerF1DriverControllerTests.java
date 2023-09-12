@@ -16,6 +16,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 
@@ -47,8 +52,38 @@ public class F1SeasonTrackerF1DriverControllerTests {
     }
 
     @Test
-    public void testNewDriverPost() throws Exception {
+    public void testNewEmptyDriverPost() throws Exception {
         F1Driver mockF1Driver = new F1Driver(); // You need to create an instance of F1Driver with test data.
+
+        // Simulate the POST request to "/newDriver" with the mockF1Driver as the request body.
+        mockMvc.perform(MockMvcRequestBuilders.post("/newDriver")
+                        .flashAttr("driver", mockF1Driver))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("driverlist"));
+
+        // Verify that the f1DriverRepository.save method is called with the correct F1Driver instance.
+        // You can use Mockito.verify() to check this.
+        Mockito.verify(f1DriverRepository, times(1)).save(mockF1Driver);
+        // Verify any other behavior or assertions related to the test, if applicable.
+    }
+
+
+    @Test
+    public void testNewDriverWithImagePost() throws Exception {
+        // Create a BufferedImage object and load the image resource into it
+        BufferedImage file = ImageIO.read(new File("src/test/resources/test_driver_logo.png"));
+        // Create a ByteArrayOutputStream object
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // Write the image data to the ByteArrayOutputStream object
+        ImageIO.write(file, "png", baos);
+        // Get the byte array from the ByteArrayOutputStream object
+        byte[] image = baos.toByteArray();
+        // Close the ByteArrayOutputStream object
+        baos.close();
+
+        String name = "Jake";
+        String password = "password";
+        F1Driver mockF1Driver = new F1Driver(name, password, image); // You need to create an instance of F1Driver with test data.
 
         // Simulate the POST request to "/newDriver" with the mockF1Driver as the request body.
         mockMvc.perform(MockMvcRequestBuilders.post("/newDriver")
