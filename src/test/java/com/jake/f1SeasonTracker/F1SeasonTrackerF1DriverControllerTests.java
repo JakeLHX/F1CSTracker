@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,6 +21,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
@@ -56,17 +62,15 @@ public class F1SeasonTrackerF1DriverControllerTests {
         F1Driver mockF1Driver = new F1Driver(); // You need to create an instance of F1Driver with test data.
 
         // Simulate the POST request to "/newDriver" with the mockF1Driver as the request body.
-        mockMvc.perform(MockMvcRequestBuilders.post("/newDriver")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/newDriver")
                         .flashAttr("driver", mockF1Driver))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("driverlist"));
 
         // Verify that the f1DriverRepository.save method is called with the correct F1Driver instance.
-        // You can use Mockito.verify() to check this.
         Mockito.verify(f1DriverRepository, times(1)).save(mockF1Driver);
         // Verify any other behavior or assertions related to the test, if applicable.
     }
-
 
     @Test
     public void testNewDriverWithImagePost() throws Exception {
@@ -95,5 +99,25 @@ public class F1SeasonTrackerF1DriverControllerTests {
         // You can use Mockito.verify() to check this.
         Mockito.verify(f1DriverRepository, times(1)).save(mockF1Driver);
         // Verify any other behavior or assertions related to the test, if applicable.
+
+    }
+
+    @Test
+    public void testNewDriverWithImage() throws Exception {
+        Path path = Paths.get("src/test/resources/test_driver_logo.png");
+        String name = "Test Driver";
+        String password = "testpassword";
+
+        byte[] imageBytes = Files.readAllBytes(path);
+
+        MockMultipartFile imageFile = new MockMultipartFile("imagePicker", "test_image.jpg", "image/jpeg", imageBytes);
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/newDriver")
+                        .file(imageFile)
+                        .param("f1DriverName", name)
+                        .param("password", password))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("driverlist"));
+
     }
 }

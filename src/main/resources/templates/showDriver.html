@@ -1,0 +1,81 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head}">
+  <title th:text="${f1Driver.getF1DriverName()}"></title>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+  <div th:replace="~{fragments/sidebar :: #sidebar}"></div>
+
+  <div class="container-fluid">
+
+    <div class="d-flex flex-column" id="content-wrapper">
+
+      <div th:replace="~{fragments/topbar :: #topbar}"></div>
+
+      <img class="mt-4 shadow" crossorigin="anonymous" width="160" height="120"
+           th:src="*{'data:image/png;base64,'+f1Driver.generateBase64ImageFromLogo()}">
+<!--           th:src="@{'/showF1Driver/image/' + ${f1Driver.getId()}}">-->
+<!--           th:src="*{'data:image/png;base64,'+f1Driver.generateBase64ImageFromLogo()}">-->
+      <div class="mt-2 d-flex">
+        <h3 th:text="${f1Driver.getF1DriverName()}" class="h3 text-gray-800"></h3>
+        <button class="ml-auto d-none d-inline-block btn btn-sm btn-danger shadow-sm" type="submit"
+                onclick="deleteF1Driver()">
+          Delete
+        </button>
+      </div>
+
+<!--      <div class="card shadow mt-4" th:if="${result != null}">-->
+<!--        <div class="card-header">-->
+<!--          <h5 th:text="Results"></h5>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--          <table id="results" class="table table-bordered table-striped">-->
+
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th>Position</th>-->
+<!--              <th>Name</th>-->
+<!--              <th>Points</th>-->
+<!--              <th>Fastest Lap</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="row: ${result}">-->
+<!--              <td th:text="${row.getPosition()}">-->
+<!--              <td th:text="${row.getF1Driver().getF1DriverName()}">-->
+<!--              <td th:text="${row.getPoints()}">-->
+<!--              <td>-->
+<!--                <input type="checkbox" readonly th:checked="${row.getFastestLap()}">-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+
+<!--          </table>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>
+<script src="/js/f1csjavascript.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#results').DataTable();
+  });
+
+  async function deleteF1Driver() {
+    const promises = [];
+    promises.push(fetch('/deleteF1Driver/' + window.location.pathname.split("/").pop(), {method: 'POST'}));
+    const responses = await Promise.all(promises);
+    const success = responses.every(response => response.status === 200);
+    if (success) window.location.href = "/listF1Drivers";
+  }
+</script>
+<footer th:replace="~{fragments/footer :: foot}"></footer>
+</body>
+
+</html>

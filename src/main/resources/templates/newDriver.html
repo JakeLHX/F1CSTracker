@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <div class="content">
                         <div class="container">
-                            <form action="#" th:action="@{/newDriver}" th:object="${driver}" method="post">
+                            <form action="#" th:action="@{/newDriver}" th:object="${driver}" method="post" enctype="multipart/form-data">
                                 <div class="form-group pl-1 pr-1"><input class="form-control form-control-user"
                                                                          th:field="*{f1DriverName}"
                                                                          type="text" name="Name" placeholder="Name"
@@ -30,7 +30,7 @@
                                                                          placeholder="Password">
                                 </div>
                                 <div class="form-group pl-1 pr-1">
-                                    <input th:field="*{f1DriverLogo}" type="file" id="imagePicker" accept="image/*" />
+                                    <input name="imagePicker" type="file" id="imagePicker" accept="image/*" />
                                     <br>
                                     <!-- Preview the selected image -->
                                     <img id="previewImage" src="" alt="Selected Image" width="200" style="display: none;">

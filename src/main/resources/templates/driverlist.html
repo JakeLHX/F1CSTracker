@@ -40,7 +40,9 @@
                         <tbody>
                         <tr th:each="driver: ${drivers}">
                             <td th:text="${driver.getId()}">
-                            <td th:text="${driver.getF1DriverName()}">
+                            <td>
+                                <a th:text="${driver.getF1DriverName()}" th:href="@{'/showF1Driver/' + ${driver.getId()}}"></a>
+                            </td>
                         </tr>
                         </tbody>
 
