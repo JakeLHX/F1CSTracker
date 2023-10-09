@@ -47,7 +47,4 @@ public class F1SeasonTrackerF1DriverTests {
         Collection<F1Driver> resultsArray = f1DriverRepository.findAll();
         System.out.println(resultsArray);
     }
-
-
-
 }
